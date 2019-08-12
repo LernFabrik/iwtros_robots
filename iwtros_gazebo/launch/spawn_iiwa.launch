@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot_name" default="iiwa"/>
+    <arg name="hardware_interface" default="PositionJointInterface"/>
+
+    <param name="robot_description"
+          command="$(find xacro)/xacro --inorder '$(find robots_ee_pkg)/urdf/kuka_robot/iiwa7.urdf.xacro' robot_name:=$(arg robot_name) robot_param:=robot_description workcell_parent:=$(arg robot_name)_interface" />
+
+    <include file="$(find iwtros_gazebo)/launch/controllers/kuka_iiwa_control.launch">
+      <arg name="hardware_interface" value="$(arg hardware_interface)"/>
+      <arg name="controllers" value="$(arg robot_name)_joint_state_controller $(arg hardware_interface)_trajectory_controller"/>
+      <arg name="robot_name" value="$(arg robot_name)"/>
+    </include>
+    <include file="$(find iwtros_gazebo)/launch/controllers/wsg50_gripper_control.launch">
+      <arg name="robot_name" value="wsg50"/>
+    </include>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <param name="publish_frequency" value="100" />
+    </node>
+    <node name="$(arg robot_name)_gazebo_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="-x 2.25 -y -0.5 -Y -1.570796327 -unpause -urdf -model iiwa -param robot_description" />
+</launch>

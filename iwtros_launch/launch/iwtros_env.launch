@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="hardware_interface" default="PositionJointInterface"/>
+  <arg name="sim" default="true"/>
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="$(arg sim)"/>
+  <arg name="rviz" default = "true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="extra_gazebo_args" default="--verbose"/>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include if="$(arg sim)" file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find iwtros_gazebo)/worlds/iwtros2.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args)"/>
+  </include>
+  
+  <!-- Spawn the URDF objects into Gazebo For simulation-->
+  <!--include file="$(find iwtros_gazebo)/launch/spawn_static_world_object.launch"/-->
+  <include if="$(arg sim)" file="$(find iwtros_launch)/launch/spawn_robots.launch" />
+  <!--include if="$(arg sim)" file="$(find iwtros_gazebo)/launch/spawn_omronld.launch"/-->
+
+  <!-- Hardware spwaner-->
+  <include unless="$(arg sim)" file="$(find iwtros_launch)/launch/robot_hw/iiwa_hw_controller.launch">
+      <arg name="sim" value="$(arg sim)"/>
+  </include>
+  <!--include unless="$(arg sim)" file="$(find iwtros_launch)/launch/robot_hw/panda_hw_controller.launch">
+    <arg name="sim" value="$(arg sim)"/>
+  </include-->
+
+  <node if="$(arg rviz)" name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find iwtros_gazebo)/worlds/new_spawner.rviz" required="true" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_iiwa" args="2.25 -0.5 1.03 0 0 1 0 world iiwa_interface"/>
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="world_to_ur5" args="0.8 -0.5 1.03 0 0 1 0 world ur5_interface"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_panda" args="3.7 -0.5 1.03 0 0 1 0 world panda_interface"/-->
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="world_to_inteface" args="0 0 0 0 0 0 world world_interface"/-->
+  <!--node if="$(arg sim)" pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" args="0 0 0 0 0 0 1  map world"/-->
+  <!-- Laser scaner merger -->
+  <include file="$(find iwtros_gazebo)/launch/laserscan_multi_merger.launch"/>
+</launch>

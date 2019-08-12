@@ -1,0 +1,8 @@
+#https://frankaemika.github.io/docs/control_parameters.html
+cartesian_limits:
+  max_trans_vel: 1.7
+  max_trans_acc: 13.00
+  max_trans_dec: -13.0
+  max_rot_vel: 2.5
+  max_rot_acc: 25.00
+  max_rot_dec: -25.0

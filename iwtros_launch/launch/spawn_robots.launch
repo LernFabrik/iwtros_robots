@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="sim" default="true"/>
+    <arg name="pipeline" default="command_planner" />
+    <arg name="hardware_interface" default="PositionJointInterface"/>
+    <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="rviz" default = "true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="extra_gazebo_args" default="--verbose"/>
+
+    <!-- IIWA Simulation -->
+    <group ns="iiwa" >
+        <include file="$(find iwtros_gazebo)/launch/spawn_iiwa.launch" />
+    </group>
+    <group ns="iiwa">
+        <include file="$(find iiwa_moveit_config)/launch/move_group.launch">
+            <arg name="pipeline" value="$(arg pipeline)" />
+            <arg name="sim" value="$(arg sim)"/>
+        </include>
+    </group>
+
+    <!-- UR5 Simulation -->
+    
+</launch>
