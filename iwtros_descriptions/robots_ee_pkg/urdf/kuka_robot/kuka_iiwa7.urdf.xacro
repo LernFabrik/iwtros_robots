@@ -7,7 +7,7 @@
   <!-- Import Rviz colors -->
   <xacro:include filename="$(find iiwa_description)/urdf/materials.xacro" />
   <!--Import the lbr iiwa macro -->
-  <xacro:include filename="$(find iiwa_description)/urdf/kuka_iiwa7.xacro"/>
+  <xacro:include filename="$(find iiwa_description)/urdf/iiwa7.xacro"/>
   <xacro:include filename="$(find wsg_50_simulation)/urdf/wsg_50.urdf.xacro" />
   <xacro:include filename="$(find robots_ee_pkg)/urdf/table/add_table.urdf.xacro" />
   <xacro:include filename="$(find robots_ee_pkg)/urdf/kuka_robot/kuka_iiwa7.gazebo.xacro" />
