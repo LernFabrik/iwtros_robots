@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot_name" default="iiwa"/>
+
+    <param name="robot_description"
+          command="$(find xacro)/xacro --inorder '$(find robots_ee_pkg)/urdf/kuka_robot/iiwa7.urdf.xacro' robot_name:=$(arg robot_name) robot_param:=robot_description workcell_parent:=$(arg robot_name)_interface" />
+</launch>
