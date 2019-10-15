@@ -19,21 +19,9 @@
         <param name="grasping_force" type="double" value="$(arg force)"/>
     </node>
 
-    <!-- !!!Spawn iiwa FRI Driver!!! -->
-    <!-- Select the controller -->
-    <arg name="controller" default="PositionController"/>
-    <node pkg="iiwa_driver" type="iiwa_driver" name="iiwa_driver" respawn="false" output="screen">
-        <remap from="/joint_states" to="/iiwa/joint_hw_states"/>
-        <remap from="/controller_manager" to="/iiwa/controller_manager"/>
-        <rosparam file="$(find iiwa_driver)/config/iiwa.yaml"/>
-    </node>
-    <!-- Spawn controller -->
-    <rosparam file="$(find iiwa_control)/config/iiwa_control.yaml" command="load"/>
-    <node pkg="controller_manager" type="spawner" name="iiwa_controller" output="screen" 
-        respawn="false" ns="/iiwa" args="/iiwa/$(arg controller) /iiwa/joint_state_controller"/>
-       
+    <include file="$(find iiwa_driver)/launch/iiwa_bringup.launch"/>
+   
     <group ns="iiwa">
-    
         <node name="joint_state_publisher" type="joint_state_publisher" pkg="joint_state_publisher">
             <rosparam param="source_list">[joint_hw_states, wsg50_gripper/joint_states] </rosparam>
             <param name="rate" value="50"/>
