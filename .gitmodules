@@ -1,3 +1,6 @@
 [submodule "realsense-ros"]
 	path = realsense-ros
 	url = https://github.com/lernfabrik/realsense-ros.git
+[submodule "wsg50_ros"]
+	path = wsg50_ros
+	url = https://github.com/lernfabrik/wsg50_ros.git
