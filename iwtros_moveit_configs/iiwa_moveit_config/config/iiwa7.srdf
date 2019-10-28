@@ -14,7 +14,6 @@
     </group>
     <group name="iiwa_handa">
         <joint name="wsg50_finger_right_joint" />
-        <joint name="wsg50_finger_left_joint" />
         <joint name="wsg50_anterior_gripper_joint" />
     </group>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->

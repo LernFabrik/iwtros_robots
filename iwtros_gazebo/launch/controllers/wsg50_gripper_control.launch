@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="hardware_interface" default="EffortJointInterface" />
-  <arg name="controllers" default="wsg50_joint_state_controller EffortJointInterface_wsg50_gripper_trajectory_controller" />
+  <arg name="controllers" default="wsg50_joint_state_controller gripper_controller" />
   <arg name="robot_name" default="wsg50" />
 
   <!-- Load joint controller configuration from YAML file to parameter server -->
